@@ -1,863 +1,430 @@
-
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-&nbsp;   <meta charset="UTF-8">
-
-&nbsp;   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-&nbsp;   <title>Evergreen AI Platform</title>
-
-&nbsp;   <style>
-
-&nbsp;       \* {
-
-&nbsp;           margin: 0;
-
-&nbsp;           padding: 0;
-
-&nbsp;           box-sizing: border-box;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       body {
-
-&nbsp;           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-
-&nbsp;           background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-
-&nbsp;           color: #e2e8f0;
-
-&nbsp;           min-height: 100vh;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .container {
-
-&nbsp;           display: flex;
-
-&nbsp;           height: 100vh;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .sidebar {
-
-&nbsp;           width: 250px;
-
-&nbsp;           background: rgba(15, 23, 42, 0.8);
-
-&nbsp;           border-right: 1px solid rgba(148, 163, 184, 0.1);
-
-&nbsp;           padding: 20px;
-
-&nbsp;           overflow-y: auto;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .sidebar h2 {
-
-&nbsp;           color: #06b6d4;
-
-&nbsp;           font-size: 14px;
-
-&nbsp;           margin-bottom: 20px;
-
-&nbsp;           text-transform: uppercase;
-
-&nbsp;           letter-spacing: 1px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .nav-btn {
-
-&nbsp;           width: 100%;
-
-&nbsp;           padding: 12px;
-
-&nbsp;           margin-bottom: 8px;
-
-&nbsp;           background: transparent;
-
-&nbsp;           border: 1px solid rgba(148, 163, 184, 0.2);
-
-&nbsp;           color: #94a3b8;
-
-&nbsp;           cursor: pointer;
-
-&nbsp;           border-radius: 6px;
-
-&nbsp;           text-align: left;
-
-&nbsp;           font-size: 14px;
-
-&nbsp;           transition: all 0.3s;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .nav-btn:hover {
-
-&nbsp;           background: rgba(6, 182, 212, 0.1);
-
-&nbsp;           color: #06b6d4;
-
-&nbsp;           border-color: rgba(6, 182, 212, 0.3);
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .nav-btn.active {
-
-&nbsp;           background: rgba(6, 182, 212, 0.2);
-
-&nbsp;           color: #06b6d4;
-
-&nbsp;           border-color: rgba(6, 182, 212, 0.5);
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .main {
-
-&nbsp;           flex: 1;
-
-&nbsp;           display: flex;
-
-&nbsp;           flex-direction: column;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .header {
-
-&nbsp;           background: rgba(30, 41, 59, 0.5);
-
-&nbsp;           border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-
-&nbsp;           padding: 20px 30px;
-
-&nbsp;           backdrop-filter: blur(10px);
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .header h1 {
-
-&nbsp;           color: #06b6d4;
-
-&nbsp;           font-size: 28px;
-
-&nbsp;           margin-bottom: 5px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .header p {
-
-&nbsp;           color: #94a3b8;
-
-&nbsp;           font-size: 14px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .content {
-
-&nbsp;           flex: 1;
-
-&nbsp;           overflow-y: auto;
-
-&nbsp;           padding: 30px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .section {
-
-&nbsp;           display: none;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .section.active {
-
-&nbsp;           display: block;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .metric-grid {
-
-&nbsp;           display: grid;
-
-&nbsp;           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-
-&nbsp;           gap: 20px;
-
-&nbsp;           margin-bottom: 30px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .metric-card {
-
-&nbsp;           background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05));
-
-&nbsp;           border: 1px solid rgba(6, 182, 212, 0.2);
-
-&nbsp;           border-radius: 8px;
-
-&nbsp;           padding: 20px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .metric-label {
-
-&nbsp;           color: #94a3b8;
-
-&nbsp;           font-size: 12px;
-
-&nbsp;           text-transform: uppercase;
-
-&nbsp;           margin-bottom: 8px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .metric-value {
-
-&nbsp;           color: #06b6d4;
-
-&nbsp;           font-size: 32px;
-
-&nbsp;           font-weight: bold;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .form-group {
-
-&nbsp;           margin-bottom: 15px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .form-group label {
-
-&nbsp;           display: block;
-
-&nbsp;           color: #e2e8f0;
-
-&nbsp;           margin-bottom: 8px;
-
-&nbsp;           font-size: 14px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .form-group input,
-
-&nbsp;       .form-group select,
-
-&nbsp;       .form-group textarea {
-
-&nbsp;           width: 100%;
-
-&nbsp;           padding: 10px;
-
-&nbsp;           background: rgba(15, 23, 42, 0.8);
-
-&nbsp;           border: 1px solid rgba(148, 163, 184, 0.2);
-
-&nbsp;           color: #e2e8f0;
-
-&nbsp;           border-radius: 6px;
-
-&nbsp;           font-size: 14px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .form-group textarea {
-
-&nbsp;           resize: vertical;
-
-&nbsp;           min-height: 100px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .btn {
-
-&nbsp;           padding: 12px 24px;
-
-&nbsp;           background: #06b6d4;
-
-&nbsp;           color: #0f172a;
-
-&nbsp;           border: none;
-
-&nbsp;           border-radius: 6px;
-
-&nbsp;           cursor: pointer;
-
-&nbsp;           font-weight: 600;
-
-&nbsp;           transition: all 0.3s;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .btn:hover {
-
-&nbsp;           background: #0891b2;
-
-&nbsp;           transform: translateY(-2px);
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .call-item {
-
-&nbsp;           background: rgba(15, 23, 42, 0.5);
-
-&nbsp;           border: 1px solid rgba(148, 163, 184, 0.2);
-
-&nbsp;           border-radius: 6px;
-
-&nbsp;           padding: 15px;
-
-&nbsp;           margin-bottom: 15px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .call-item h3 {
-
-&nbsp;           color: #e2e8f0;
-
-&nbsp;           margin-bottom: 8px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .call-item p {
-
-&nbsp;           color: #94a3b8;
-
-&nbsp;           font-size: 13px;
-
-&nbsp;           margin-bottom: 5px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .status-badge {
-
-&nbsp;           display: inline-block;
-
-&nbsp;           padding: 4px 12px;
-
-&nbsp;           border-radius: 4px;
-
-&nbsp;           font-size: 12px;
-
-&nbsp;           font-weight: 600;
-
-&nbsp;           margin-top: 10px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .status-new {
-
-&nbsp;           background: rgba(59, 130, 246, 0.2);
-
-&nbsp;           color: #3b82f6;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .status-quoted {
-
-&nbsp;           background: rgba(234, 179, 8, 0.2);
-
-&nbsp;           color: #eab308;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .status-scheduled {
-
-&nbsp;           background: rgba(34, 197, 94, 0.2);
-
-&nbsp;           color: #22c55e;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .quote-amount {
-
-&nbsp;           color: #10b981;
-
-&nbsp;           font-weight: bold;
-
-&nbsp;           font-size: 18px;
-
-&nbsp;           margin-top: 10px;
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       .box {
-
-&nbsp;           background: rgba(30, 41, 59, 0.5);
-
-&nbsp;           border: 1px solid rgba(148, 163, 184, 0.2);
-
-&nbsp;           border-radius: 8px;
-
-&nbsp;           padding: 20px;
-
-&nbsp;           margin-bottom: 20px;
-
-&nbsp;       }
-
-&nbsp;   </style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evergreen AI Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: rgba(15, 23, 42, 0.8);
+            border-right: 1px solid rgba(148, 163, 184, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .sidebar h2 {
+            color: #06b6d4;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: transparent;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            color: #94a3b8;
+            cursor: pointer;
+            border-radius: 6px;
+            text-align: left;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: #06b6d4;
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+        
+        .nav-btn.active {
+            background: rgba(6, 182, 212, 0.2);
+            color: #06b6d4;
+            border-color: rgba(6, 182, 212, 0.5);
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: rgba(30, 41, 59, 0.5);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            padding: 20px 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #06b6d4;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .metric-label {
+            color: #94a3b8;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value {
+            color: #06b6d4;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            color: #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            background: #06b6d4;
+            color: #0f172a;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #0891b2;
+            transform: translateY(-2px);
+        }
+        
+        .call-item {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .call-item h3 {
+            color: #e2e8f0;
+            margin-bottom: 8px;
+        }
+        
+        .call-item p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .status-new {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+        
+        .status-quoted {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+        
+        .status-scheduled {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .quote-amount {
+            color: #10b981;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        
+        .box {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
-
 <body>
-
-&nbsp;   <div class="container">
-
-&nbsp;       <div class="sidebar">
-
-&nbsp;           <h2>Evergreen</h2>
-
-&nbsp;           <button class="nav-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
-
-&nbsp;           <button class="nav-btn" onclick="showTab('calls')">📞 Call Simulator</button>
-
-&nbsp;           <button class="nav-btn" onclick="showTab('quotes')">📄 Quotes</button>
-
-&nbsp;           <button class="nav-btn" onclick="showTab('assistant')">💬 AI Assistant</button>
-
-&nbsp;       </div>
-
-&nbsp;       
-
-&nbsp;       <div class="main">
-
-&nbsp;           <div class="header">
-
-&nbsp;               <h1>Evergreen Tree Service</h1>
-
-&nbsp;               <p>AI Office Manager Beta Platform</p>
-
-&nbsp;           </div>
-
-&nbsp;           
-
-&nbsp;           <div class="content">
-
-&nbsp;               <div id="dashboard" class="section active">
-
-&nbsp;                   <h2 style="margin-bottom: 20px; color: #06b6d4;">Dashboard</h2>
-
-&nbsp;                   <div class="metric-grid">
-
-&nbsp;                       <div class="metric-card">
-
-&nbsp;                           <div class="metric-label">Today's Calls</div>
-
-&nbsp;                           <div class="metric-value" id="totalCalls">3</div>
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="metric-card">
-
-&nbsp;                           <div class="metric-label">Quoted</div>
-
-&nbsp;                           <div class="metric-value" id="quotedCount">2</div>
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="metric-card">
-
-&nbsp;                           <div class="metric-label">Scheduled</div>
-
-&nbsp;                           <div class="metric-value" id="scheduledCount">1</div>
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="metric-card">
-
-&nbsp;                           <div class="metric-label">Pipeline</div>
-
-&nbsp;                           <div class="metric-value" id="pipelineValue">$3,500</div>
-
-&nbsp;                       </div>
-
-&nbsp;                   </div>
-
-&nbsp;                   
-
-&nbsp;                   <div class="box">
-
-&nbsp;                       <h3 style="color: #06b6d4; margin-bottom: 15px;">📞 Today's Calls</h3>
-
-&nbsp;                       <div id="callsList"></div>
-
-&nbsp;                   </div>
-
-&nbsp;               </div>
-
-&nbsp;               
-
-&nbsp;               <div id="calls" class="section">
-
-&nbsp;                   <h2 style="margin-bottom: 20px; color: #06b6d4;">Simulate Incoming Call</h2>
-
-&nbsp;                   <div class="box">
-
-&nbsp;                       <div class="form-group">
-
-&nbsp;                           <label>Customer Name</label>
-
-&nbsp;                           <input type="text" id="simName" placeholder="e.g., John Smith">
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="form-group">
-
-&nbsp;                           <label>Phone Number</label>
-
-&nbsp;                           <input type="tel" id="simPhone" placeholder="e.g., (503) 555-0142">
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="form-group">
-
-&nbsp;                           <label>Address</label>
-
-&nbsp;                           <input type="text" id="simAddress" placeholder="e.g., 1234 Oak St, Portland, OR">
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="form-group">
-
-&nbsp;                           <label>Service Type</label>
-
-&nbsp;                           <select id="simService">
-
-&nbsp;                               <option>Tree Removal</option>
-
-&nbsp;                               <option>Tree Trimming</option>
-
-&nbsp;                               <option>Stump Grinding</option>
-
-&nbsp;                               <option>Emergency Tree Service</option>
-
-&nbsp;                           </select>
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="form-group">
-
-&nbsp;                           <label>What They Said</label>
-
-&nbsp;                           <textarea id="simTranscript" placeholder="e.g., Large oak tree, needs removal"></textarea>
-
-&nbsp;                       </div>
-
-&nbsp;                       <button class="btn" onclick="simulateCall()">📞 Simulate Call Intake</button>
-
-&nbsp;                   </div>
-
-&nbsp;               </div>
-
-&nbsp;               
-
-&nbsp;               <div id="quotes" class="section">
-
-&nbsp;                   <h2 style="margin-bottom: 20px; color: #06b6d4;">Generate Quotes</h2>
-
-&nbsp;                   <div id="quotesList"></div>
-
-&nbsp;               </div>
-
-&nbsp;               
-
-&nbsp;               <div id="assistant" class="section">
-
-&nbsp;                   <h2 style="margin-bottom: 20px; color: #06b6d4;">AI Assistant</h2>
-
-&nbsp;                   <div class="chat-container">
-
-&nbsp;                       <div class="chat-messages" id="chatMessages">
-
-&nbsp;                           <div class="chat-message bot">
-
-&nbsp;                               <p>Hey! Ask me about calls, quotes, revenue, or appointments. What do you need?</p>
-
-&nbsp;                           </div>
-
-&nbsp;                       </div>
-
-&nbsp;                       <div class="chat-input-group">
-
-&nbsp;                           <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key==='Enter') sendChat()">
-
-&nbsp;                           <button class="btn" onclick="sendChat()">Send</button>
-
-&nbsp;                       </div>
-
-&nbsp;                   </div>
-
-&nbsp;               </div>
-
-&nbsp;           </div>
-
-&nbsp;       </div>
-
-&nbsp;   </div>
-
-
-
-&nbsp;   <script>
-
-&nbsp;       let calls = \[
-
-&nbsp;           { id: 1, name: 'John Smith', phone: '(503) 555-0142', address: '1234 Oak St, Portland, OR', service: 'Tree Removal', transcript: 'Large oak tree, 60 feet, close to house', status: 'new', quote: null },
-
-&nbsp;           { id: 2, name: 'Sarah Johnson', phone: '(503) 555-0198', address: '5678 Pine Ave, Hillsboro, OR', service: 'Stump Grinding', transcript: '5 stumps need grinding', status: 'quoted', quote: 1500 },
-
-&nbsp;           { id: 3, name: 'Mike Davis', phone: '(503) 555-0156', address: '9012 Elm Rd, Beaverton, OR', service: 'Tree Trimming', transcript: 'Branches dropping on neighbor garage', status: 'scheduled', quote: 800 }
-
-&nbsp;       ];
-
-&nbsp;       
-
-&nbsp;       let chatMessages = \['Hey! Ask me about calls, quotes, revenue, or appointments. What do you need?'];
-
-&nbsp;       
-
-&nbsp;       const pricing = {
-
-&nbsp;           'Tree Removal': 1200,
-
-&nbsp;           'Tree Trimming': 650,
-
-&nbsp;           'Stump Grinding': 350,
-
-&nbsp;           'Emergency Tree Service': 2500
-
-&nbsp;       };
-
-&nbsp;       
-
-&nbsp;       function showTab(tab) {
-
-&nbsp;           document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-
-&nbsp;           document.getElementById(tab).classList.add('active');
-
-&nbsp;           document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-
-&nbsp;           event.target.classList.add('active');
-
-&nbsp;           if (tab === 'dashboard') updateDashboard();
-
-&nbsp;           else if (tab === 'quotes') updateQuotes();
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       function updateDashboard() {
-
-&nbsp;           document.getElementById('totalCalls').textContent = calls.length;
-
-&nbsp;           document.getElementById('quotedCount').textContent = calls.filter(c => c.quote).length;
-
-&nbsp;           document.getElementById('scheduledCount').textContent = calls.filter(c => c.status === 'scheduled').length;
-
-&nbsp;           const total = calls.filter(c => c.quote).reduce((sum, c) => sum + c.quote, 0);
-
-&nbsp;           document.getElementById('pipelineValue').textContent = '$' + total.toLocaleString();
-
-&nbsp;           const callsList = document.getElementById('callsList');
-
-&nbsp;           callsList.innerHTML = calls.map(call => `<div class="call-item"><h3>${call.name}</h3><p><strong>${call.service}</strong></p><p>${call.address}</p>${call.quote ? `<p class="quote-amount">$${call.quote}</p>` : ''}<span class="status-badge status-${call.status}">${call.status.toUpperCase()}</span></div>`).join('');
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       function simulateCall() {
-
-&nbsp;           const name = document.getElementById('simName').value;
-
-&nbsp;           const phone = document.getElementById('simPhone').value;
-
-&nbsp;           const address = document.getElementById('simAddress').value;
-
-&nbsp;           const service = document.getElementById('simService').value;
-
-&nbsp;           const transcript = document.getElementById('simTranscript').value;
-
-&nbsp;           if (!name || !phone) { alert('Please fill in name and phone'); return; }
-
-&nbsp;           const newCall = { id: calls.length + 1, name, phone, address, service, transcript, status: 'new', quote: null };
-
-&nbsp;           calls.unshift(newCall);
-
-&nbsp;           document.getElementById('simName').value = '';
-
-&nbsp;           document.getElementById('simPhone').value = '';
-
-&nbsp;           document.getElementById('simAddress').value = '';
-
-&nbsp;           document.getElementById('simTranscript').value = '';
-
-&nbsp;           alert('✓ Call captured! Go to Dashboard to see it.');
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       function updateQuotes() {
-
-&nbsp;           const newCalls = calls.filter(c => c.status === 'new');
-
-&nbsp;           const quotesList = document.getElementById('quotesList');
-
-&nbsp;           if (newCalls.length === 0) { quotesList.innerHTML = '<p style="text-align: center; color: #94a3b8;">No new leads. Simulate a call first!</p>'; return; }
-
-&nbsp;           quotesList.innerHTML = newCalls.map(call => {
-
-&nbsp;               const price = pricing\[call.service] || 1000;
-
-&nbsp;               return `<div class="box"><h3>${call.name}</h3><p>${call.service}</p><p style="color: #94a3b8; margin: 10px 0;">"${call.transcript}"</p><div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 6px; margin: 15px 0;"><p style="color: #94a3b8; font-size: 12px;">ESTIMATED QUOTE</p><p style="color: #10b981; font-size: 32px; font-weight: bold;">$${price}</p></div><button class="btn" onclick="generateQuote(${call.id}, ${price})">Generate \& Send Quote</button></div>`;
-
-&nbsp;           }).join('');
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       function generateQuote(callId, price) {
-
-&nbsp;           const call = calls.find(c => c.id === callId);
-
-&nbsp;           if (call) { call.status = 'quoted'; call.quote = price; updateQuotes(); alert('✓ Quote generated and sent!'); }
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       function sendChat() {
-
-&nbsp;           const input = document.getElementById('chatInput').value.trim();
-
-&nbsp;           if (!input) return;
-
-&nbsp;           chatMessages.push(input);
-
-&nbsp;           let response = '';
-
-&nbsp;           const lower = input.toLowerCase();
-
-&nbsp;           if (lower.includes('how many') \&\& lower.includes('call')) response = `You have ${calls.length} calls today.`;
-
-&nbsp;           else if (lower.includes('revenue') || lower.includes('money')) {
-
-&nbsp;               const total = calls.filter(c => c.quote).reduce((sum, c) => sum + c.quote, 0);
-
-&nbsp;               response = `Total quoted: $${total}. If all close, that's $${total} revenue.`;
-
-&nbsp;           } else if (lower.includes('schedule') || lower.includes('appointment')) {
-
-&nbsp;               const scheduled = calls.filter(c => c.status === 'scheduled');
-
-&nbsp;               response = scheduled.length > 0 ? `You have ${scheduled.length} appointment(s) scheduled.` : 'No appointments yet.';
-
-&nbsp;           } else if (lower.includes('close rate')) {
-
-&nbsp;               const rate = calls.length > 0 ? Math.round(100 \* calls.filter(c => c.status === 'scheduled').length / calls.length) : 0;
-
-&nbsp;               response = `Your close rate: ${rate}%. Goal: 55%.`;
-
-&nbsp;           } else {
-
-&nbsp;               response = 'I can help with: calls, revenue, appointments, close rate. What do you need?';
-
-&nbsp;           }
-
-&nbsp;           chatMessages.push(response);
-
-&nbsp;           const chatDiv = document.getElementById('chatMessages');
-
-&nbsp;           chatDiv.innerHTML = chatMessages.map((msg, i) => `<div class="chat-message ${i % 2 === 0 ? 'bot' : 'user'}"><p>${msg}</p></div>`).join('');
-
-&nbsp;           chatDiv.scrollTop = chatDiv.scrollHeight;
-
-&nbsp;           document.getElementById('chatInput').value = '';
-
-&nbsp;       }
-
-&nbsp;       
-
-&nbsp;       updateDashboard();
-
-&nbsp;   </script>
-
+    <div class="container">
+        <div class="sidebar">
+            <h2>Evergreen</h2>
+            <button class="nav-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
+            <button class="nav-btn" onclick="showTab('calls')">📞 Call Simulator</button>
+            <button class="nav-btn" onclick="showTab('quotes')">📄 Quotes</button>
+            <button class="nav-btn" onclick="showTab('assistant')">💬 AI Assistant</button>
+        </div>
+        
+        <div class="main">
+            <div class="header">
+                <h1>Evergreen Tree Service</h1>
+                <p>AI Office Manager Beta Platform</p>
+            </div>
+            
+            <div class="content">
+                <div id="dashboard" class="section active">
+                    <h2 style="margin-bottom: 20px; color: #06b6d4;">Dashboard</h2>
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Today's Calls</div>
+                            <div class="metric-value" id="totalCalls">3</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Quoted</div>
+                            <div class="metric-value" id="quotedCount">2</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Scheduled</div>
+                            <div class="metric-value" id="scheduledCount">1</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Pipeline</div>
+                            <div class="metric-value" id="pipelineValue">$3,500</div>
+                        </div>
+                    </div>
+                    
+                    <div class="box">
+                        <h3 style="color: #06b6d4; margin-bottom: 15px;">📞 Today's Calls</h3>
+                        <div id="callsList"></div>
+                    </div>
+                </div>
+                
+                <div id="calls" class="section">
+                    <h2 style="margin-bottom: 20px; color: #06b6d4;">Simulate Incoming Call</h2>
+                    <div class="box">
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" id="simName" placeholder="e.g., John Smith">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="simPhone" placeholder="e.g., (503) 555-0142">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" id="simAddress" placeholder="e.g., 1234 Oak St, Portland, OR">
+                        </div>
+                        <div class="form-group">
+                            <label>Service Type</label>
+                            <select id="simService">
+                                <option>Tree Removal</option>
+                                <option>Tree Trimming</option>
+                                <option>Stump Grinding</option>
+                                <option>Emergency Tree Service</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>What They Said</label>
+                            <textarea id="simTranscript" placeholder="e.g., Large oak tree, needs removal"></textarea>
+                        </div>
+                        <button class="btn" onclick="simulateCall()">📞 Simulate Call Intake</button>
+                    </div>
+                </div>
+                
+                <div id="quotes" class="section">
+                    <h2 style="margin-bottom: 20px; color: #06b6d4;">Generate Quotes</h2>
+                    <div id="quotesList"></div>
+                </div>
+                
+                <div id="assistant" class="section">
+                    <h2 style="margin-bottom: 20px; color: #06b6d4;">AI Assistant</h2>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="chat-message bot">
+                                <p>Hey! Ask me about calls, quotes, revenue, or appointments. What do you need?</p>
+                            </div>
+                        </div>
+                        <div class="chat-input-group">
+                            <input type="text" id="chatInput" placeholder="Ask anything..." onkeypress="if(event.key==='Enter') sendChat()">
+                            <button class="btn" onclick="sendChat()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let calls = [
+            { id: 1, name: 'John Smith', phone: '(503) 555-0142', address: '1234 Oak St, Portland, OR', service: 'Tree Removal', transcript: 'Large oak tree, 60 feet, close to house', status: 'new', quote: null },
+            { id: 2, name: 'Sarah Johnson', phone: '(503) 555-0198', address: '5678 Pine Ave, Hillsboro, OR', service: 'Stump Grinding', transcript: '5 stumps need grinding', status: 'quoted', quote: 1500 },
+            { id: 3, name: 'Mike Davis', phone: '(503) 555-0156', address: '9012 Elm Rd, Beaverton, OR', service: 'Tree Trimming', transcript: 'Branches dropping on neighbor garage', status: 'scheduled', quote: 800 }
+        ];
+        
+        let chatMessages = ['Hey! Ask me about calls, quotes, revenue, or appointments. What do you need?'];
+        
+        const pricing = {
+            'Tree Removal': 1200,
+            'Tree Trimming': 650,
+            'Stump Grinding': 350,
+            'Emergency Tree Service': 2500
+        };
+        
+        function showTab(tab) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            if (tab === 'dashboard') updateDashboard();
+            else if (tab === 'quotes') updateQuotes();
+        }
+        
+        function updateDashboard() {
+            document.getElementById('totalCalls').textContent = calls.length;
+            document.getElementById('quotedCount').textContent = calls.filter(c => c.quote).length;
+            document.getElementById('scheduledCount').textContent = calls.filter(c => c.status === 'scheduled').length;
+            const total = calls.filter(c => c.quote).reduce((sum, c) => sum + c.quote, 0);
+            document.getElementById('pipelineValue').textContent = '$' + total.toLocaleString();
+            const callsList = document.getElementById('callsList');
+            callsList.innerHTML = calls.map(call => `<div class="call-item"><h3>${call.name}</h3><p><strong>${call.service}</strong></p><p>${call.address}</p>${call.quote ? `<p class="quote-amount">$${call.quote}</p>` : ''}<span class="status-badge status-${call.status}">${call.status.toUpperCase()}</span></div>`).join('');
+        }
+        
+        function simulateCall() {
+            const name = document.getElementById('simName').value;
+            const phone = document.getElementById('simPhone').value;
+            const address = document.getElementById('simAddress').value;
+            const service = document.getElementById('simService').value;
+            const transcript = document.getElementById('simTranscript').value;
+            if (!name || !phone) { alert('Please fill in name and phone'); return; }
+            const newCall = { id: calls.length + 1, name, phone, address, service, transcript, status: 'new', quote: null };
+            calls.unshift(newCall);
+            document.getElementById('simName').value = '';
+            document.getElementById('simPhone').value = '';
+            document.getElementById('simAddress').value = '';
+            document.getElementById('simTranscript').value = '';
+            alert('✓ Call captured! Go to Dashboard to see it.');
+        }
+        
+        function updateQuotes() {
+            const newCalls = calls.filter(c => c.status === 'new');
+            const quotesList = document.getElementById('quotesList');
+            if (newCalls.length === 0) { quotesList.innerHTML = '<p style="text-align: center; color: #94a3b8;">No new leads. Simulate a call first!</p>'; return; }
+            quotesList.innerHTML = newCalls.map(call => {
+                const price = pricing[call.service] || 1000;
+                return `<div class="box"><h3>${call.name}</h3><p>${call.service}</p><p style="color: #94a3b8; margin: 10px 0;">"${call.transcript}"</p><div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 6px; margin: 15px 0;"><p style="color: #94a3b8; font-size: 12px;">ESTIMATED QUOTE</p><p style="color: #10b981; font-size: 32px; font-weight: bold;">$${price}</p></div><button class="btn" onclick="generateQuote(${call.id}, ${price})">Generate & Send Quote</button></div>`;
+            }).join('');
+        }
+        
+        function generateQuote(callId, price) {
+            const call = calls.find(c => c.id === callId);
+            if (call) { call.status = 'quoted'; call.quote = price; updateQuotes(); alert('✓ Quote generated and sent!'); }
+        }
+        
+        function sendChat() {
+            const input = document.getElementById('chatInput').value.trim();
+            if (!input) return;
+            chatMessages.push(input);
+            let response = '';
+            const lower = input.toLowerCase();
+            if (lower.includes('how many') && lower.includes('call')) response = `You have ${calls.length} calls today.`;
+            else if (lower.includes('revenue') || lower.includes('money')) {
+                const total = calls.filter(c => c.quote).reduce((sum, c) => sum + c.quote, 0);
+                response = `Total quoted: $${total}. If all close, that's $${total} revenue.`;
+            } else if (lower.includes('schedule') || lower.includes('appointment')) {
+                const scheduled = calls.filter(c => c.status === 'scheduled');
+                response = scheduled.length > 0 ? `You have ${scheduled.length} appointment(s) scheduled.` : 'No appointments yet.';
+            } else if (lower.includes('close rate')) {
+                const rate = calls.length > 0 ? Math.round(100 * calls.filter(c => c.status === 'scheduled').length / calls.length) : 0;
+                response = `Your close rate: ${rate}%. Goal: 55%.`;
+            } else {
+                response = 'I can help with: calls, revenue, appointments, close rate. What do you need?';
+            }
+            chatMessages.push(response);
+            const chatDiv = document.getElementById('chatMessages');
+            chatDiv.innerHTML = chatMessages.map((msg, i) => `<div class="chat-message ${i % 2 === 0 ? 'bot' : 'user'}"><p>${msg}</p></div>`).join('');
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+            document.getElementById('chatInput').value = '';
+        }
+        
+        updateDashboard();
+    </script>
 </body>
-
 </html>
-
-
